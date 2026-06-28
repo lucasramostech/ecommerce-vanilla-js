@@ -11,25 +11,34 @@ if (usuarioAtual) {
 function addItems(event, idProduto, valorTotal) {
     if (!usuarioAtual) return
 
+    if (usuarioAtual.desconto > 0) {
+        usuarioAtual.total += usuarioAtual.desconto
+        usuarioAtual.desconto = 0
+    }
+
     const produtoCarrinho = {
         id: idProduto,
         nome: event.target.closest(".card-produto").querySelector(".titulo-produto").innerText,
         preco: event.target.closest(".card-produto").querySelector(".preco-produto").innerText,
         image: event.target.closest(".card-produto").querySelector(".img-produto").src,
-        quantidade: 1
+        quantidade: 1,
+        binario: true
     }
+
+
 
     const produtoExistente = usuarioAtual.carrinho.find(item => item.id === idProduto)
 
     if (produtoExistente) {
         produtoExistente.quantidade++
-        
+        produtoExistente.binario = true
+
     } else {
         usuarioAtual.carrinho.push(produtoCarrinho)
     }
 
     let valorProduto = +produtoCarrinho.preco.slice(3)
-    usuarioAtual.total += valorProduto
+    usuarioAtual.total = usuarioAtual.total + valorProduto
 
     localStorage.setItem("usuarioLogado", JSON.stringify(usuarioAtual))
     
@@ -55,11 +64,9 @@ function carrinho() {
     // Evento de click
     buttomClick.forEach((botao) => {
         botao.addEventListener("click", (event) => {
-            const idProduto = event.target.dataset.id
-
-            
+            const idProduto = event.target.dataset.id            
             addItems(event, idProduto, valorTotal)
-            totalCarrinho.innerText = usuarioAtual.total.toFixed(2)
+            totalCarrinho.innerText = "R$ " + usuarioAtual.total.toFixed(2)
         })
     })
 }
@@ -71,7 +78,7 @@ const carrinhoBar = document.querySelector("#carrinho-sidebar")
 const carrinhoLogo = document.querySelector(".carrinho_logo")
 
 carrinhoLogo.addEventListener("click", function() {
-    carrinhoBar.style.display = "flex"
+    carrinhoBar.classList.add("aberto")
 })
 
 
@@ -79,7 +86,7 @@ carrinhoLogo.addEventListener("click", function() {
 const carrinhoClose = document.querySelector("#fechar-carrinho")
 
 carrinhoClose.addEventListener("click", function() {
-    carrinhoBar.style.display = "none"
+   carrinhoBar.classList.remove("aberto")
 })
 
 

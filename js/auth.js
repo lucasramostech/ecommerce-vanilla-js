@@ -3,7 +3,13 @@
 const email = document.querySelector(".email")
 const password = document.querySelector(".senha")
 const buttom = document.querySelector(".submit")
+const errorBox = document.querySelector(".error")
 
+function showMessage(msg, isSucesso = false) {
+    errorBox.textContent = msg
+    errorBox.classList.toggle("success", isSucesso)
+    errorBox.style.display = "flex"
+}
 
 
 // Função que valida o email
@@ -20,7 +26,7 @@ function emailValidator() {
 
 
 
-// Função que valida a senha  
+// Função que valida a senha
 // Requisitos (8 caract; Upper; [@,$,%,&,*, #])
 function passwordValidator() {
     let valuePassword = password.value
@@ -40,10 +46,11 @@ function newUser() {
         senha: password.value,
         saldo: 500.00,
         total: 0,
+        desconto: 0,
         carrinho: []
     }
 
-    
+
     let listaUsuarios = JSON.parse(localStorage.getItem("usuarios")) || []
     listaUsuarios.push(novoUsuario)
     localStorage.setItem("usuarios", JSON.stringify(listaUsuarios))
@@ -52,38 +59,37 @@ function newUser() {
 
 
 
-// Quando dar submit 
+// Quando dar submit
 if (buttom) {
 buttom.addEventListener("click", (event) => {
     event.preventDefault()
 
     if (!emailValidator()) {
-        alert("E-mail inválido! Corrija para continuar.")
-        
+        showMessage("E-mail inválido! Corrija para continuar.")
 
-    } else { 
+    } else {
         if (!passwordValidator()) {
-            alert("Senha inválida! Corrija para continuar.")
+            showMessage("Senha inválida! Corrija para continuar.")
         } else {
-            
+
             // Local Storage
             let listaUsuarios = JSON.parse(localStorage.getItem("usuarios")) || []
             let usuarioEncontrado = listaUsuarios.find(usuario => usuario.email === email.value)
 
             if (!usuarioEncontrado) {
-                alert("E-mail não encontrado! Criando uma conta...")
+                showMessage("E-mail não encontrado! Criando uma conta...", true)
                 newUser()
                 return
             }
 
 
             if (usuarioEncontrado.senha === password.value) {
-                alert("Login realizado com sucesso! Seja bem-vindo.")
+                showMessage("Login realizado com sucesso! Seja bem-vindo.", true)
                 localStorage.setItem("usuarioLogado", JSON.stringify(usuarioEncontrado))
-                window.location.href = "index.html" // Vai para o main html
+                setTimeout(() => { window.location.href = "index.html" }, 800)
                 return
 
-            } else { alert("Senha incorreta!")}  
+            } else { showMessage("Senha incorreta!") }
         }
-    } 
+    }
 })}

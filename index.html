@@ -22,10 +22,32 @@
     </nav>
   </header>
 
+  <div id="modal-finalizar-compra">
+    <div id="modal-overlay"></div>
+    <div id="modal-conteudo">
+      <div id="modal-header">
+        <h2>Finalizar Compra</h2>
+        <button id="fechar-modal">&times;</button>
+      </div>
+      <div id="modal-body">
+        
+        <label for="">Cupom: </label>
+        <input class="cupom-zone" type="text">
+        <button class="submit-cupom">Submit</button>
+        <ul id="modal-itens"></ul>
+      </div>
+      <div id="modal-footer">
+        <p>Total: <span id="modal-total">R$ 0,00</span></p>
+        <button id="confirmar-compra">Confirmar Pedido</button>
+      </div>
+    </div>
+  </div>
+
   <main>
     <div id="vitrine-produtos">
     </div>
   </main>
+
 
   <div id="carrinho-sidebar">
     <div id="carrinho-header">
@@ -39,10 +61,12 @@
     </div>
   </div>
 
+ 
   <script src="js/carrinho.js"></script>
   <script src="js/wallet.js"></script>
   <script src="js/index.js"></script>
   <script src="js/produtos.js"></script>
+  <script src="js/cupom.js"></script>
   
 </body>
 </html>

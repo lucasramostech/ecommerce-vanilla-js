@@ -26,19 +26,25 @@ fetch("https://fakestoreapi.com/products")
             
 
             if (usuarioLogado && usuarioLogado.carrinho) {
-                let itensHtml = ""
                 usuarioLogado.carrinho.forEach(produto => {
-                    itensHtml += `
-                        <div class="item-carrinho" style="display: flex; align-items: center; margin-bottom: 10px;">
-                            <div style="font-size: 24px; margin-right: 10px;">X</div>
-                            <div>
-                                <h4>${produto.nome}</h4>
-                                <p>${produto.preco} (x${produto.quantidade})</p>
-                            </div>
-                        </div>
-                    `
+                    let produtoName = produto.nome.split(' ').slice(0, 3).join(' ')
+                    const existente = listaCompras.querySelector(`[data-id="${produto.id}"]`)
+
+                    if (existente) {
+                        existente.querySelector('p').textContent = `${produto.preco} (x${produto.quantidade})`
+                    } else {
+                        const imgSrc = (produtos.find(p => p.id == produto.id)?.image) || ''
+                        const div = document.createElement('div')
+                        div.className = 'item-carrinho'
+                        div.dataset.id = produto.id
+                        div.style.cssText = 'display:flex; align-items:center; margin-bottom:10px;'
+                        div.innerHTML = `
+                            <div style="margin-right:10px;"><img src="${imgSrc}" alt="${produtoName}" style="width:50px;height:50px;object-fit:contain;" onerror="this.style.display='none'"></div>
+                            <div><h4>${produtoName}</h4><p>${produto.preco} (x${produto.quantidade})</p></div>
+                        `
+                        listaCompras.appendChild(div)
+                    }
                 })
-                listaCompras.innerHTML = itensHtml
             } else {
                 listaCompras.innerHTML = ""
             }
