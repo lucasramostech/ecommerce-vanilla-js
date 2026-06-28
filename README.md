@@ -2,6 +2,8 @@
 
 Loja virtual simples feita com HTML, CSS e JavaScript puro, sem frameworks ou dependências externas.
 
+**Deploy:** [ecommerce-vanilla-js-lucasramostech.vercel.app](https://ecommerce-vanilla-js-lucasramostech.vercel.app/login.html)
+
 ## Funcionalidades
 
 ### Autenticação
@@ -56,6 +58,7 @@ Ecommerce/
 7. O total acumulado é exibido no header em tempo real
 8. Clique no ícone do carrinho para abrir o sidebar e ver os itens adicionados
 9. Clique em **Log Out** para encerrar a sessão
+
 
 ## Tecnologias
 
