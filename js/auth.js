@@ -32,6 +32,7 @@ function passwordValidator() {
 }
 
 
+
 // Cadastrando novo usuário
 function newUser() {
     let novoUsuario = {
@@ -42,15 +43,16 @@ function newUser() {
         carrinho: []
     }
 
+    
     let listaUsuarios = JSON.parse(localStorage.getItem("usuarios")) || []
     listaUsuarios.push(novoUsuario)
     localStorage.setItem("usuarios", JSON.stringify(listaUsuarios))
+
 }
 
 
 
 // Quando dar submit 
-
 if (buttom) {
 buttom.addEventListener("click", (event) => {
     event.preventDefault()

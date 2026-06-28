@@ -1,6 +1,6 @@
-
-// Puxando o nome do usuário que entrou 
+// Puxando o nome do usuário que entrou
 const usuario = JSON.parse(localStorage.getItem("usuarioLogado"))
+if (!usuario) window.location.href = "login.html"
 const campoEmail = document.querySelector("#usuario-email")
 campoEmail.innerText = "Oi, " + usuario.email
 

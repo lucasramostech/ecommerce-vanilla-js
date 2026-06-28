@@ -2,6 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="css/style.css">
   <title>E-commerce Dashboard</title>
 </head>
@@ -9,13 +10,15 @@
 
   <header>
     <nav id="navegation">
-
       <div class="container">
       <h1 id="usuario-email"></h1>
       <button class="log-out">Log Out</button>
       </div>
 
-      <h1 class="valorTotal">Total: 0R$</h1>
+      <div class="total-carrinho">
+        <h1 class="valorTotal">Total: 0R$</h1>
+        <button class="carrinho_logo"><img src="Assets/carrinho_logo.png" alt=""></button>
+      </div>
     </nav>
   </header>
 
@@ -24,10 +27,22 @@
     </div>
   </main>
 
+  <div id="carrinho-sidebar">
+    <div id="carrinho-header">
+      <h2>Carrinho</h2>
+      <button id="fechar-carrinho">&times;</button>
+    </div>
+    <div id="carrinho-itens"></div>
+    <div id="carrinho-footer">
+      <p>Total: <span id="carrinho-total">R$ 0,00</span></p>
+      <button id="finalizar-compra">Finalizar Compra</button>
+    </div>
+  </div>
+
   <script src="js/carrinho.js"></script>
-  <script src="js/produtos.js"></script>
   <script src="js/wallet.js"></script>
   <script src="js/index.js"></script>
-  <script src="js/auth.js"></script>
+  <script src="js/produtos.js"></script>
+  
 </body>
 </html>
