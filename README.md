@@ -1,4 +1,4 @@
-# Ecommerce v1.0
+# Ecommerce v2.0
 
 Loja virtual simples feita com HTML, CSS e JavaScript puro, sem frameworks ou dependências externas.
 
@@ -18,7 +18,10 @@ Loja virtual simples feita com HTML, CSS e JavaScript puro, sem frameworks ou de
 
 ### Carrinho
 - Adição de produtos ao carrinho com acúmulo do valor total
-- Total exibido em tempo real no header
+- Incremento de quantidade ao adicionar o mesmo produto mais de uma vez
+- Total exibido em tempo real no header e no sidebar do carrinho
+- Sidebar lateral com lista de itens (nome, preço e quantidade de cada produto)
+- Sidebar abre ao clicar no ícone do carrinho e fecha pelo botão de fechar
 - Estado do carrinho persistido no `localStorage` por usuário
 
 ### Carteira
@@ -29,15 +32,15 @@ Loja virtual simples feita com HTML, CSS e JavaScript puro, sem frameworks ou de
 
 ```
 Ecommerce/
-├── index.html        # Página principal (vitrine de produtos)
+├── index.html        # Página principal (vitrine de produtos + sidebar do carrinho)
 ├── login.html        # Página de login/cadastro
 ├── css/
 │   └── style.css     # Estilos globais
 └── js/
     ├── auth.js       # Validação de login e cadastro de usuários
     ├── index.js      # Exibe o e-mail do usuário logado e controla logout
-    ├── produtos.js   # Busca e renderiza produtos da API
-    ├── carrinho.js   # Lógica de adição de itens e cálculo do total
+    ├── produtos.js   # Busca e renderiza produtos da API; atualiza o sidebar do carrinho
+    ├── carrinho.js   # Lógica de adição de itens, cálculo do total e controle do sidebar
     ├── wallet.js     # Gerenciamento de saldo (em desenvolvimento)
     └── cupom.js      # Lógica de cupons de desconto (em desenvolvimento)
 ```
@@ -47,11 +50,12 @@ Ecommerce/
 1. Clone o repositório
 2. Abra `login.html` diretamente no navegador (sem necessidade de servidor)
 3. Digite um e-mail válido e uma senha que atenda aos requisitos
-4. Se o e-mail não existir, uma conta será criada automaticamente com R$ 500,00 de saldo
+4. Se o e-mail não existir, uma conta será criada automaticamente com R$ 500,00 de saldo — faça login novamente para entrar
 5. Após o login, você será redirecionado para a vitrine de produtos
 6. Clique em **Comprar** para adicionar produtos ao carrinho
 7. O total acumulado é exibido no header em tempo real
-8. Clique em **Log Out** para encerrar a sessão
+8. Clique no ícone do carrinho para abrir o sidebar e ver os itens adicionados
+9. Clique em **Log Out** para encerrar a sessão
 
 ## Tecnologias
 
