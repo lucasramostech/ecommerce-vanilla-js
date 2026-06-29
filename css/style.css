@@ -152,13 +152,13 @@ header {
     text-transform: uppercase;
     cursor: pointer;
     border-radius: 0;
-    transition: border-color 0.15s, color 0.15s;
+    transition: border-color 0.5s, color 0.5s, background-color 0.5s;
 }
 
 .log-out:hover {
     border-color: #111;
-    color: #111;
-    background-color: transparent;
+    color: #ffffff;
+    background-color: rgb(255, 0, 0);
 }
 
 .total-carrinho {
@@ -659,6 +659,24 @@ main {
         padding: 0 20px;
     }
 
+    .valorTotal {
+        text-align: center;
+        font-size: 3.5vw;
+    }
+
+    #saldo-usuario {
+        font-size: 3.5vw;
+    }
+
+    .container {
+        display: block;
+        text-align: center;
+    }
+
+    .log-out {
+        font-size: 3vw;
+    }
+
     #usuario-email {
         display: none;
     }
@@ -718,4 +736,8 @@ main {
         margin-top: 10vh;
         padding: 28px 18px;
     } 
+
+    .total-carrinho {
+        gap: 1px;
+    }
 }
