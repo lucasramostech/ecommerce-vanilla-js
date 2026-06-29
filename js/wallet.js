@@ -7,10 +7,11 @@ const finalbtn = document.querySelector("#confirmar-compra")
 function newSaldo() {
 
     usuarioAtualSaldo = JSON.parse(localStorage.getItem("usuarioLogado"))
-    if (usuarioAtualSaldo.total > usuarioAtualSaldo.saldo) { 
-        alert("Dinheiro insuficiente")
+    if (usuarioAtualSaldo.total > usuarioAtualSaldo.saldo) {
+        const popupErro = document.querySelector("#popup-saldo-insuficiente")
+        popupErro.style.display = "block"
+        setTimeout(() => { popupErro.style.display = "none" }, 3000)
         return false
-    
     }
     
     usuarioAtualSaldo.saldo = (usuarioAtualSaldo.saldo || 0) - usuarioAtualSaldo.total

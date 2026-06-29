@@ -603,6 +603,22 @@ main {
     
 }
 
+/* Popup erro saldo insuficiente */
+#popup-saldo-insuficiente {
+    display: none;
+    position: fixed;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #e53e3e;
+    color: #fff;
+    padding: 14px 28px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    z-index: 3000;
+}
+
 /* Responsividade geral */
 
 /* Tablet */
