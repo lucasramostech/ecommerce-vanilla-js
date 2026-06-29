@@ -12,6 +12,16 @@ function showMessage(msg, isSucesso = false) {
 }
 
 
+// Função que transforma a senha em hash (SHA-256) -> Bitcoin ;>
+async function hashSenha(senha) {
+    const encoder = new TextEncoder()
+    const data = encoder.encode(senha)
+    const hashBuffer = await crypto.subtle.digest("SHA-256", data)
+    const hashArray = Array.from(new Uint8Array(hashBuffer))
+    return hashArray.map(b => b.toString(16).padStart(2, "0")).join("")
+}
+
+
 // Função que valida o email
 function emailValidator() {
     let valueEmail = email.value
@@ -40,10 +50,10 @@ function passwordValidator() {
 
 
 // Cadastrando novo usuário
-function newUser() {
+async function newUser() {
     let novoUsuario = {
         email: email.value,
-        senha: password.value,
+        senha: await hashSenha(password.value),
         saldo: 500.00,
         total: 0,
         desconto: 0,
@@ -61,7 +71,7 @@ function newUser() {
 
 // Quando dar submit
 if (buttom) {
-buttom.addEventListener("click", (event) => {
+buttom.addEventListener("click", async (event) => {
     event.preventDefault()
 
     if (!emailValidator()) {
@@ -78,12 +88,12 @@ buttom.addEventListener("click", (event) => {
 
             if (!usuarioEncontrado) {
                 showMessage("E-mail não encontrado! Criando uma conta...", true)
-                newUser()
+                await newUser()
                 return
             }
 
 
-            if (usuarioEncontrado.senha === password.value) {
+            if (usuarioEncontrado.senha === await hashSenha(password.value)) {
                 showMessage("Login realizado com sucesso! Seja bem-vindo.", true)
                 localStorage.setItem("usuarioLogado", JSON.stringify(usuarioEncontrado))
                 setTimeout(() => { window.location.href = "index.html" }, 800)

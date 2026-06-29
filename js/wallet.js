@@ -1,22 +1,23 @@
 
 // Chama no queryy
-let usuarioAtualSaldo = JSON.parse(localStorage.getItem("usuarioLogado"))
 const finalbtn = document.querySelector("#confirmar-compra")
 
 // Função que calcula o saldo
 function newSaldo() {
 
-    usuarioAtualSaldo = JSON.parse(localStorage.getItem("usuarioLogado"))
-    if (usuarioAtualSaldo.total > usuarioAtualSaldo.saldo) {
+    if (usuarioAtual.total > usuarioAtual.saldo) {
         const popupErro = document.querySelector("#popup-saldo-insuficiente")
         popupErro.style.display = "block"
         setTimeout(() => { popupErro.style.display = "none" }, 3000)
         return false
     }
     
-    usuarioAtualSaldo.saldo = (usuarioAtualSaldo.saldo || 0) - usuarioAtualSaldo.total
-    localStorage.setItem("usuarioLogado", JSON.stringify(usuarioAtualSaldo))
-    usuarioAtual.saldo = usuarioAtualSaldo.saldo
+    usuarioAtual.saldo = (usuarioAtual.saldo || 0) - usuarioAtual.total
+    if (usuarioAtual.cupomPendente) {
+        usuarioAtual.cuponsUsados = [...(usuarioAtual.cuponsUsados || []), usuarioAtual.cupomPendente]
+        usuarioAtual.cupomPendente = null
+    }
+    localStorage.setItem("usuarioLogado", JSON.stringify(usuarioAtual))
 
     const modalTotal = document.querySelector("#modal-total")
     modalTotal.innerText = "R$ 0"
@@ -27,16 +28,15 @@ function newSaldo() {
 
 // Exibindo o saldo na tela
 const saldoTempoReal = document.querySelector("#saldo-usuario")
-saldoTempoReal.innerText = "Saldo: R$ " + usuarioAtualSaldo.saldo.toFixed(2)
+saldoTempoReal.innerText = "Saldo: R$ " + usuarioAtual.saldo.toFixed(2)
 
 
 function limparCarrinho() {
-    let usuarioAtualSaldo = JSON.parse(localStorage.getItem("usuarioLogado"))
-    usuarioAtualSaldo.carrinho = []
-    usuarioAtualSaldo.carrinho = []
-    usuarioAtualSaldo.total = 0
-    usuarioAtualSaldo.desconto = 0
-    localStorage.setItem("usuarioLogado", JSON.stringify(usuarioAtualSaldo))
+    usuarioAtual.carrinho = []
+    usuarioAtual.carrinho = []
+    usuarioAtual.total = 0
+    usuarioAtual.desconto = 0
+    localStorage.setItem("usuarioLogado", JSON.stringify(usuarioAtual))
 
      // Atualiza a tela ao vivo
     atualizarCarrinhoTela()
@@ -55,25 +55,25 @@ function limparCarrinho() {
 
     // Exibindo o saldo na tela
     const saldoTempoReal = document.querySelector("#saldo-usuario")
-    saldoTempoReal.innerText = "Saldo: R$ " + usuarioAtualSaldo.saldo.toFixed(2)
+    saldoTempoReal.innerText = "Saldo: R$ " + usuarioAtual.saldo.toFixed(2)
 
     usuarioAtual.carrinho = []; usuarioAtual.total = 0; usuarioAtual.desconto = 0
 
     // Sincroniza no array de usuarios para persistir após logout
     let listaUsuarios = JSON.parse(localStorage.getItem("usuarios")) || []
-    let indice = listaUsuarios.findIndex(u => u.email === usuarioAtualSaldo.email)
+    let indice = listaUsuarios.findIndex(u => u.email === usuarioAtual.email)
     if (indice !== -1) {
-        listaUsuarios[indice] = usuarioAtualSaldo
+        listaUsuarios[indice] = usuarioAtual
         localStorage.setItem("usuarios", JSON.stringify(listaUsuarios))
     }
 
-}
+} 
 
 
 
 // Ve o evento de clique e chama a função
 finalbtn.addEventListener("click", function() {
-    let resultado = newSaldo()  // chama UMA vez e guarda o retorno
+    let resultado = newSaldo()  
     
     if (resultado == false) {
     } else {

@@ -55,7 +55,7 @@ submitCupom.addEventListener("click", function() {
     usuarioAtual.total = usuarioAtual.total - desconto
     usuarioAtual.desconto = desconto
     usuarioAtual.carrinho.forEach(item => item.binario = false)
-    usuarioAtual.cuponsUsados = [...(usuarioAtual.cuponsUsados || []), valorDoCupom]
+    usuarioAtual.cupomPendente = valorDoCupom
     localStorage.setItem("usuarioLogado", JSON.stringify(usuarioAtual))
 
     // Mensagem de cupom aplicado 
