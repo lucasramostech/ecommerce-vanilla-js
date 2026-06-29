@@ -12,6 +12,7 @@ Loja virtual feita com HTML, CSS e JavaScript puro — sem frameworks ou depend�
 - Login com e-mail e senha validados no frontend
 - Cadastro automático ao tentar logar com e-mail ainda não registrado
 - Validação de formato de e-mail e senha (mínimo 8 caracteres, ao menos 1 maiúscula e 1 caractere especial entre `@`, `$`, `%`, `&`, `*`, `#`)
+- Senhas armazenadas com hash SHA-256 via Web Crypto API
 - Feedback visual em caso de erro ou sucesso
 - Sessão persistida via `localStorage`; logout limpa tudo e redireciona para o login
 
@@ -100,5 +101,5 @@ Ecommerce/
 ## Observações
 
 - Projeto sem backend — todos os dados ficam no `localStorage` do navegador
-- As senhas são armazenadas sem criptografia: **não use senhas reais**
+- As senhas são armazenadas com hash SHA-256 no `localStorage`; ainda assim, **não use senhas reais**
 - Requer conexão com a internet para carregar os produtos da API externa
