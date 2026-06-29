@@ -135,6 +135,12 @@ header {
     color: #888;
 }
 
+#saldo-usuario {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #4f46e5;
+}
+
 .log-out {
     padding: 6px 14px;
     background-color: transparent;
@@ -525,6 +531,23 @@ main {
     height: 15vh;
 }
 
+.btn-aumentar, .btn-diminuir {
+    width: 26px;
+    height: 26px;
+    background-color: transparent;
+    border: 1px solid #ddd;
+    color: #444;
+    font-size: 1rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+}
+
+.btn-aumentar:hover, .btn-diminuir:hover {
+    border-color: #111;
+    color: #111;
+}
+
 #carrinho-footer {
     padding: 20px 24px;
     border-top: 1px solid #e5e5e5;
@@ -557,6 +580,28 @@ main {
     background-color: #3730a3;
 }
 
+
+/* Popup sucesso quando o cliente finaliza e compra */
+#popup-sucesso {
+    display: none;
+    position: fixed;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #4fda0f;
+    color: #fff;
+    padding: 14px 28px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    z-index: 3000;
+   
+}
+
+#popup-sucesso.visivel {
+    display: block;
+    
+}
 
 /* Responsividade geral */
 

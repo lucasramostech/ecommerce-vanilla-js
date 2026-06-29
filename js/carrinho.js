@@ -25,8 +25,6 @@ function addItems(event, idProduto, valorTotal) {
         binario: true
     }
 
-
-
     const produtoExistente = usuarioAtual.carrinho.find(item => item.id === idProduto)
 
     if (produtoExistente) {
@@ -92,6 +90,61 @@ carrinhoClose.addEventListener("click", function() {
 
 // Total carrinho
 const totalCarrinho = document.querySelector("#carrinho-total")
-totalCarrinho.innerText = "R$ "+ usuarioAtual.total.toFixed(2) 
+totalCarrinho.innerText = "R$ "+ usuarioAtual.total.toFixed(2)
 
 
+// Função que altera a quantidade
+function alterarQuantidade(idProduto, operacao) {
+    usuarioAtual = JSON.parse(localStorage.getItem("usuarioLogado"))
+
+    if (usuarioAtual.desconto > 0) {
+        usuarioAtual.total += usuarioAtual.desconto
+        usuarioAtual.desconto = 0
+    }
+
+    const produto = usuarioAtual.carrinho.find(item => item.id === idProduto)
+
+    if (operacao == "+") { 
+        produto.quantidade++
+         usuarioAtual.total += +produto.preco.slice(3)
+    } else {
+
+        if (produto.quantidade === 1) {
+            const indice = usuarioAtual.carrinho.findIndex(item => item.id === idProduto)
+            usuarioAtual.carrinho.splice(indice, 1)
+            
+    }
+        produto.quantidade--
+        usuarioAtual.total -= +produto.preco.slice(3)
+    } 
+
+    localStorage.setItem("usuarioLogado", JSON.stringify(usuarioAtual))
+
+    let listaUsuariosGeral = JSON.parse(localStorage.getItem("usuarios")) || []
+    let indiceUsuario = listaUsuariosGeral.findIndex(u => u.email === usuarioAtual.email)
+    if (indiceUsuario !== -1) {
+        listaUsuariosGeral[indiceUsuario] = usuarioAtual
+        localStorage.setItem("usuarios", JSON.stringify(listaUsuariosGeral))
+    }
+
+    valorTotal.innerText = "Total: R$ " + usuarioAtual.total.toFixed(2)
+    totalCarrinho.innerText = "R$ " + usuarioAtual.total.toFixed(2)
+    atualizarCarrinhoTela()
+}
+
+
+
+
+// Evento de click
+document.querySelector("#carrinho-itens").addEventListener("click", function(event) {
+    const btnAumentar = event.target.closest(".btn-aumentar")
+    const btnDiminuir = event.target.closest(".btn-diminuir")
+
+    if (btnAumentar) {
+        alterarQuantidade(btnAumentar.dataset.id, "+")
+    }
+
+    if (btnDiminuir){
+        alterarQuantidade(btnDiminuir.dataset.id, "-")
+    }
+})

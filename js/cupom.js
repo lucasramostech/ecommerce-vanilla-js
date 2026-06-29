@@ -11,7 +11,7 @@ submitCupom.addEventListener("click", function() {
     let valorDoCupom = cupom.value
 
     
-    if (!cuponsValidos.includes(valorDoCupom) || !usuarioAtual.carrinho.some(item => item.binario)) {
+    if (!cuponsValidos.includes(valorDoCupom) || (usuarioAtual.cuponsUsados || []).includes(valorDoCupom) || !usuarioAtual.carrinho.some(item => item.binario)) {
 
         // Mensagem de cupom ja aplicado
         cupom.value = "Cupom Inválido e/ou já usado!"
@@ -23,6 +23,7 @@ submitCupom.addEventListener("click", function() {
         return
     }
 
+    // Switch de possibilidades dos cupons
     switch(valorDoCupom){
         case "BEMVINDO10":
             desconto = (usuarioAtual.total) / 10
@@ -54,6 +55,7 @@ submitCupom.addEventListener("click", function() {
     usuarioAtual.total = usuarioAtual.total - desconto
     usuarioAtual.desconto = desconto
     usuarioAtual.carrinho.forEach(item => item.binario = false)
+    usuarioAtual.cuponsUsados = [...(usuarioAtual.cuponsUsados || []), valorDoCupom]
     localStorage.setItem("usuarioLogado", JSON.stringify(usuarioAtual))
 
     // Mensagem de cupom aplicado 

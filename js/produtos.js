@@ -20,12 +20,17 @@ fetch("https://fakestoreapi.com/products")
         vitrine.innerHTML = html
 
         // Função de injeção de HTML
+        
         window.atualizarCarrinhoTela = function() {
             const usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"))
-            
-            
-
+        
             if (usuarioLogado && usuarioLogado.carrinho) {
+                const itensNaTela = listaCompras.querySelectorAll(".item-carrinho")
+                itensNaTela.forEach(item => {
+                    const existe = usuarioLogado.carrinho.find(p => p.id == item.dataset.id)
+                    if (!existe) item.remove()
+                })
+
                 usuarioLogado.carrinho.forEach(produto => {
                     let produtoName = produto.nome.split(' ').slice(0, 3).join(' ')
                     const existente = listaCompras.querySelector(`[data-id="${produto.id}"]`)
@@ -40,7 +45,12 @@ fetch("https://fakestoreapi.com/products")
                         div.style.cssText = 'display:flex; align-items:center; margin-bottom:10px;'
                         div.innerHTML = `
                             <div style="margin-right:10px;"><img src="${imgSrc}" alt="${produtoName}" style="width:50px;height:50px;object-fit:contain;" onerror="this.style.display='none'"></div>
-                            <div><h4>${produtoName}</h4><p>${produto.preco} (x${produto.quantidade})</p></div>
+                            <div>
+                                <h4>${produtoName}</h4>
+                                <p>${produto.preco} (x${produto.quantidade})</p>
+                                <button class="btn-diminuir" data-id="${produto.id}">-</button>
+                                <button class="btn-aumentar" data-id="${produto.id}">+</button>
+                            </div>
                         `
                         listaCompras.appendChild(div)
                     }
@@ -51,7 +61,5 @@ fetch("https://fakestoreapi.com/products")
         }
 
         atualizarCarrinhoTela()
-
-
         carrinho()
     })

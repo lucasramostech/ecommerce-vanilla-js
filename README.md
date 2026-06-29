@@ -1,35 +1,36 @@
-# Ecommerce v3.0
+# Ecommerce v4.0
 
-Loja virtual feita com HTML, CSS e JavaScript puro, sem frameworks ou dependências externas.
+Loja virtual feita com HTML, CSS e JavaScript puro — sem frameworks ou dependências externas.
 
 **Deploy:** [ecommerce-vanilla-js-lucasramostech.vercel.app](https://ecommerce-vanilla-js-lucasramostech.vercel.app/login.html)
+
+---
 
 ## Funcionalidades
 
 ### Autenticação
 - Login com e-mail e senha validados no frontend
-- Cadastro automático ao tentar logar com um e-mail ainda não registrado
-- Validação de e-mail (formato `usuario@dominio.extensao`)
-- Validação de senha (mínimo 8 caracteres, ao menos 1 letra maiúscula e 1 caractere especial entre `@`, `$`, `%`, `&`, `*`, `#`)
-- Persistência da sessão via `localStorage`
-- Logout com limpeza da sessão
+- Cadastro automático ao tentar logar com e-mail ainda não registrado
+- Validação de formato de e-mail e senha (mínimo 8 caracteres, ao menos 1 maiúscula e 1 caractere especial entre `@`, `$`, `%`, `&`, `*`, `#`)
+- Feedback visual em caso de erro ou sucesso
+- Sessão persistida via `localStorage`; logout limpa tudo e redireciona para o login
 
 ### Vitrine de Produtos
 - Produtos carregados dinamicamente da [Fake Store API](https://fakestoreapi.com/products)
 - Grid responsivo com cards contendo imagem, nome, preço e botão de compra
 
 ### Carrinho
-- Adição de produtos ao carrinho com acúmulo do valor total
-- Incremento de quantidade ao adicionar o mesmo produto mais de uma vez
-- Total exibido em tempo real no header e no sidebar do carrinho
-- Sidebar lateral com lista de itens (imagem, nome, preço e quantidade de cada produto)
-- Sidebar abre ao clicar no ícone do carrinho e fecha pelo botão de fechar
-- Estado do carrinho persistido no `localStorage` por usuário e sincronizado com a lista geral de usuários
+- Produtos adicionados acumulam o total; adicionar o mesmo item incrementa a quantidade
+- Sidebar lateral com lista de itens e controle de quantidade via **+** e **−** (zerar remove o item)
+- Total atualizado em tempo real no header e no sidebar
+- Carrinho limpo automaticamente após confirmar o pedido
+- Estado persistido no `localStorage` por usuário
 
 ### Cupons de Desconto
-- Campo de cupom disponível no modal de finalizar compra
-- Cupom é validado e aplicado em tempo real sobre o total atual
-- Desconto é revertido automaticamente ao adicionar novos itens após aplicação
+- Disponível no modal de checkout; aplicado e validado em tempo real
+- Desconto é revertido se novos itens forem adicionados após a aplicação
+- Cada cupom só pode ser usado uma vez por usuário
+- Feedback visual: verde para cupom válido, vermelho para inválido ou já usado
 - Cupons disponíveis:
 
 | Cupom | Desconto |
@@ -41,21 +42,23 @@ Loja virtual feita com HTML, CSS e JavaScript puro, sem frameworks ou dependênc
 | `PROMO50` | R$ 50,00 de desconto |
 | `VIP100` | R$ 100,00 de desconto |
 
-### Modal de Finalizar Compra
-- Modal abre ao clicar em **Finalizar Compra** no sidebar do carrinho
-- Exibe o total atualizado da compra
-- Campo para inserir e aplicar cupom de desconto
-- Botão para confirmar o pedido (integração com carteira em desenvolvimento)
+### Modal de Checkout
+- Abre ao clicar em **Finalizar Compra** no sidebar
+- Exibe o total atualizado e campo para cupom de desconto
+- Fechar pelo **×** ou confirmar com **Confirmar Pedido**, que deduz o saldo da carteira
 
 ### Carteira
-- Cada usuário criado recebe automaticamente R$ 500,00 de saldo inicial
-- Saldo vinculado ao perfil do usuário no `localStorage`
-- Exibição do saldo e dedução ao confirmar pedido em desenvolvimento (`wallet.js`)
+- Saldo inicial de R$ 500,00 para todo usuário criado
+- Exibido em tempo real no header e deduzido após cada compra confirmada
+- Compra bloqueada com alerta se o saldo for insuficiente
+
+### Após a Compra
+- Popup de sucesso exibido por 3 segundos
+- Carrinho limpo, modal fechado e totais zerados automaticamente
 
 ### Responsividade
-- Responsivo
 - Layout adaptado para tablets e celulares
-
+- Sidebar e modal em tela cheia em dispositivos móveis
 
 ## Estrutura de Arquivos
 
@@ -71,24 +74,20 @@ Ecommerce/
     ├── auth.js       # Validação de login e cadastro de usuários
     ├── index.js      # Exibe o e-mail do usuário logado, controla logout e modal de finalizar compra
     ├── produtos.js   # Busca e renderiza produtos da API; atualiza o sidebar do carrinho
-    ├── carrinho.js   # Lógica de adição de itens, cálculo do total e controle do sidebar
-    ├── cupom.js      # Lógica de cupons de desconto
-    └── wallet.js     # Gerenciamento de saldo (em desenvolvimento)
+    ├── carrinho.js   # Lógica de adição/remoção de itens, controle de quantidade e sidebar
+    ├── cupom.js      # Lógica de cupons de desconto com histórico por usuário
+    └── wallet.js     # Gerenciamento de saldo: exibição em tempo real, validação e dedução ao confirmar pedido
 ```
 
 ## Como Usar
 
-1. Clone o repositório
-2. Abra `login.html` diretamente no navegador (sem necessidade de servidor)
-3. Digite um e-mail válido e uma senha que atenda aos requisitos
-4. Se o e-mail não existir, uma conta será criada automaticamente com R$ 500,00 de saldo — faça login novamente para entrar
-5. Após o login, você será redirecionado para a vitrine de produtos
-6. Clique em **Comprar** para adicionar produtos ao carrinho
-7. O total acumulado é exibido no header em tempo real
-8. Clique no ícone do carrinho para abrir o sidebar e ver os itens adicionados
-9. No sidebar, clique em **Finalizar Compra** para abrir o modal de checkout
-10. No modal, insira um cupom válido (opcional) e clique em **Confirmar Pedido**
-11. Clique em **Log Out** para encerrar a sessão
+1. Clone o repositório e abra `login.html` direto no navegador (sem necessidade de servidor)
+2. Crie uma conta com e-mail válido e senha nos padrões exigidos — o login automático ativa após o cadastro
+3. Na vitrine, clique em **Comprar** para adicionar itens; total e saldo aparecem em tempo real no header
+4. Abra o sidebar pelo ícone do carrinho, ajuste quantidades e clique em **Finalizar Compra**
+5. No modal, aplique um cupom (opcional) e confirme o pedido
+6. Um popup de sucesso confirma a compra; carrinho e saldo são atualizados na hora
+7. Clique em **Log Out** para encerrar a sessão
 
 ## Tecnologias
 
@@ -100,15 +99,6 @@ Ecommerce/
 
 ## Observações
 
-- Projeto sem backend — todos os dados são armazenados no `localStorage` do navegador
-- As senhas são armazenadas localmente sem criptografia: **não use senhas reais**
+- Projeto sem backend — todos os dados ficam no `localStorage` do navegador
+- As senhas são armazenadas sem criptografia: **não use senhas reais**
 - Requer conexão com a internet para carregar os produtos da API externa
-- Um cupom só pode ser aplicado uma vez por sessão de compra; adicionar novos itens reverte o desconto
-
-## Próximas Versões
-
-- **wallet.js:** exibir saldo disponível no header, deduzir saldo ao confirmar pedido e bloquear compra caso o saldo seja insuficiente
-- **Confirmar Pedido:** limpar carrinho, atualizar saldo e exibir confirmação ao finalizar a compra
-- Fechar modal ao clicar fora (overlay)
-- Mensagem visual quando o carrinho está vazio
-- Indicador de carregamento enquanto os produtos são buscados da API
