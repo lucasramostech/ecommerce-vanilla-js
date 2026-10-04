@@ -14,6 +14,8 @@ function addItems(event, idProduto, valorTotal) {
     if (usuarioAtual.desconto > 0) {
         usuarioAtual.total += usuarioAtual.desconto
         usuarioAtual.desconto = 0
+        usuarioAtual.cupomPendente = null
+        usuarioAtual.carrinho.forEach(item => item.binario = true)
     }
 
     const produtoCarrinho = {
@@ -96,10 +98,13 @@ totalCarrinho.innerText = "R$ "+ usuarioAtual.total.toFixed(2)
 // Função que altera a quantidade
 function alterarQuantidade(idProduto, operacao) {
     usuarioAtual = JSON.parse(localStorage.getItem("usuarioLogado"))
+    
 
     if (usuarioAtual.desconto > 0) {
         usuarioAtual.total += usuarioAtual.desconto
         usuarioAtual.desconto = 0
+        usuarioAtual.cupomPendente = null
+        usuarioAtual.carrinho.forEach(item => item.binario = true)
     }
 
     const produto = usuarioAtual.carrinho.find(item => item.id === idProduto)

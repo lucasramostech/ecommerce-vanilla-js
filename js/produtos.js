@@ -2,10 +2,37 @@
 const vitrine = document.querySelector("#vitrine-produtos")
 const listaCompras = document.querySelector("#carrinho-itens")
 
-fetch("https://fakestoreapi.com/products")
-    .then(resposta => resposta.json())
+function buscarProdutos(url) {
+    return fetch(url).then(resposta => {
+        if (!resposta.ok) {
+            throw new Error(`Falha ao carregar produtos: HTTP ${resposta.status}`)
+        }
+        return resposta.json()
+    })
+}
+
+buscarProdutos("https://fakestoreapi.com/products")
     .then(produtos => {
-        
+        if (!Array.isArray(produtos)) {
+            throw new Error("A Fake Store API retornou uma lista inválida.")
+        }
+        return produtos
+    })
+    .catch(erro => {
+        console.warn("Fake Store API indisponível; tentando catálogo alternativo.", erro)
+        return buscarProdutos("https://dummyjson.com/products")
+            .then(resposta => {
+                if (!Array.isArray(resposta.products)) {
+                    throw new Error("A API alternativa retornou uma lista inválida.")
+                }
+                return resposta.products.map(produto => ({
+                    ...produto,
+                    id: produto.id + 10000,
+                    image: produto.thumbnail
+                }))
+            })
+    })
+    .then(produtos => {
         let html = ""
         produtos.forEach(produto => {
             html += `
@@ -62,4 +89,8 @@ fetch("https://fakestoreapi.com/products")
 
         atualizarCarrinhoTela()
         carrinho()
+    })
+    .catch(erro => {
+        console.error("Não foi possível carregar os produtos.", erro)
+        vitrine.textContent = "Não foi possível carregar os produtos. Verifique sua conexão e tente novamente."
     })
